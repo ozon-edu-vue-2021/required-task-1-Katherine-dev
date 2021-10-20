@@ -90,14 +90,13 @@ const renderPictures = function (list) {
     if (!list.length) {
         throw Error(`Pictures not defined. The list length: ${list.length}`);
     }
-    while (container.hasChildNodes()) {
-        container.removeChild(container.lastChild);
-    }
+
     const fragment = document.createDocumentFragment();
+    
     list.forEach(function (element) {
         const clone = templateImageCard.content.cloneNode(true);
         const link = clone.querySelector('a');
-        
+
         link.href = element.url;
         link.dataset.id = element.id;
         
@@ -152,7 +151,7 @@ const togglePopup = function () {
  */
 const actionHandler = function (evt) {
     evt.preventDefault();
-    const nextPage = +evt.currentTarget.dataset.page + 1;
+    const nextPage = Number(evt.currentTarget.dataset.page) + 1;
     evt.currentTarget.dataset.page = nextPage;
 
     if (nextPage > MAX_PAGE_IAMGES) {
@@ -171,9 +170,10 @@ const actionHandler = function (evt) {
  */
 const imageHandler = function (evt) {
     evt.preventDefault();
+    const picEl = evt.target.closest('a');
 
-    if (evt.target.closest('a')) {
-        getPictureInfo(evt.target.closest('a').dataset.id);
+    if (picEl) {
+        getPictureInfo(picEl.dataset.id);
     }
 }
 
